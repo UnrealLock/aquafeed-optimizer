@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Feeding Plan{% endblock %}
+
+{% block content %}
+  <h1>Feeding Plan</h1>
+
+  <h2>Plan</h2>
+  <ul>
+    <li>Aquarium: {{ plan.aquarium.name }} ({{ plan.aquarium.volume_liters }} L)</li>
+    <li>Food: {{ plan.food.name }}</li>
+    <li>Daily amount: {{ plan.daily_amount_grams }} g/day</li>
+    <li>Feedings per day: {{ plan.feedings_per_day }}</li>
+    <li>Created: {{ plan.created_at }}</li>
+  </ul>
+
+  <h2>Water forecast</h2>
+  {% if forecast %}
+    <ul>
+      <li>Nitrate (ppm): {{ forecast.nitrate_ppm }}</li>
+      <li>Phosphate (ppm): {{ forecast.phosphate_ppm }}</li>
+      <li>Organic load index: {{ forecast.organic_load_index }}</li>
+      <li>Created: {{ forecast.created_at }}</li>
+    </ul>
+  {% else %}
+    <p>No forecast yet.</p>
+  {% endif %}
+{% endblock %}
