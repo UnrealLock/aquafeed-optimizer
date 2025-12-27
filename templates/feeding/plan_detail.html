@@ -6,22 +6,62 @@
 
   <h2>Plan</h2>
   <ul>
-    <li>Aquarium: {{ plan.aquarium.name }} ({{ plan.aquarium.volume_liters }} L)</li>
-    <li>Food: {{ plan.food.name }}</li>
-    <li>Daily amount: {{ plan.daily_amount_grams }} g/day</li>
-    <li>Feedings per day: {{ plan.feedings_per_day }}</li>
-    <li>Created: {{ plan.created_at }}</li>
+    <li>
+      <strong>Aquarium:</strong>
+      {{ plan.aquarium.name }} ({{ plan.aquarium.volume_liters }} L)
+    </li>
+
+    <li>
+      <strong>Food:</strong>
+      {{ plan.food.name }}
+    </li>
+
+    <li>
+      <strong>Daily amount:</strong>
+      {{ daily_amount_display }} g / day
+    </li>
+
+    <li>
+      <strong>Feedings per day:</strong>
+      {{ plan.feedings_per_day }}
+    </li>
+
+    <li>
+      <strong>Per feeding:</strong>
+      {{ per_feeding_display }} g
+    </li>
+
+    <li>
+      <strong>Created:</strong>
+      {{ plan.created_at }}
+    </li>
   </ul>
 
   <h2>Water forecast</h2>
+
   {% if forecast %}
     <ul>
-      <li>Nitrate (ppm): {{ forecast.nitrate_ppm }}</li>
-      <li>Phosphate (ppm): {{ forecast.phosphate_ppm }}</li>
-      <li>Organic load index: {{ forecast.organic_load_index }}</li>
-      <li>Created: {{ forecast.created_at }}</li>
+      <li>
+        <strong>Nitrate (ppm):</strong>
+        {{ nitrate_display }}
+      </li>
+
+      <li>
+        <strong>Phosphate (ppm):</strong>
+        {{ phosphate_display }}
+      </li>
+
+      <li>
+        <strong>Organic load index:</strong>
+        {{ organic_display }}
+      </li>
+
+      <li>
+        <strong>Forecast created:</strong>
+        {{ forecast.created_at }}
+      </li>
     </ul>
   {% else %}
-    <p>No forecast yet.</p>
+    <p>No forecast available.</p>
   {% endif %}
 {% endblock %}
