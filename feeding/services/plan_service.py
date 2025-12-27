@@ -23,5 +23,8 @@ def create_feeding_plan(
         feedings_per_day=feedings_per_day,
     )
 
+    from water_quality.services import create_or_update_forecast
+    create_or_update_forecast(feeding_plan)
+
     return feeding_plan
 
