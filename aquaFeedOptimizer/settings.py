@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'aquariums',
     'fish',
     'food',
+    'feeding',
 ]
 
 MIDDLEWARE = [
