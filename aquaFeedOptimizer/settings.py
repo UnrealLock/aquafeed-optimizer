@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     'fish',
     'food',
     'feeding',
+    'water_quality',
 ]
 
 MIDDLEWARE = [
