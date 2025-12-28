@@ -5,6 +5,7 @@ from feeding.forms import FeedingPlanCreateForm
 from feeding.models import FeedingPlan
 from feeding.services.plan_service import create_feeding_plan
 from decimal import Decimal, ROUND_HALF_UP
+from water_quality.services.charts import make_forecast_charts
 
 @login_required
 def feeding_plan_create(request):
@@ -51,10 +52,13 @@ def feeding_plan_detail(request, pk: int):
     .quantize(quant, rounding=ROUND_HALF_UP)
     )
     nitrate_display = phosphate_display = organic_display = None
+
+    charts = {}
     if forecast:
         nitrate_display = forecast.nitrate_ppm.quantize(quant, rounding=ROUND_HALF_UP)
         phosphate_display = forecast.phosphate_ppm.quantize(quant, rounding=ROUND_HALF_UP)
         organic_display = forecast.organic_load_index.quantize(quant, rounding=ROUND_HALF_UP)
+        charts = make_forecast_charts(forecast)
 
     return render(
     request,
@@ -67,5 +71,6 @@ def feeding_plan_detail(request, pk: int):
         "nitrate_display": nitrate_display,
         "phosphate_display": phosphate_display,
         "organic_display": organic_display,
+        "charts": charts,
     },
 )

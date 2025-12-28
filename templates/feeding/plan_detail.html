@@ -61,6 +61,25 @@
         {{ forecast.created_at }}
       </li>
     </ul>
+
+    <h2>Charts</h2>
+
+    <div id="chart-nitrate"></div>
+    <div id="chart-phosphate"></div>
+    <div id="chart-organic"></div>
+
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <script>
+      const nitrateFig = JSON.parse('{{ charts.nitrate_json|escapejs }}');
+      Plotly.newPlot('chart-nitrate', nitrateFig.data, nitrateFig.layout);
+
+      const phosphateFig = JSON.parse('{{ charts.phosphate_json|escapejs }}');
+      Plotly.newPlot('chart-phosphate', phosphateFig.data, phosphateFig.layout);
+
+      const organicFig = JSON.parse('{{ charts.organic_json|escapejs }}');
+      Plotly.newPlot('chart-organic', organicFig.data, organicFig.layout);
+    </script>
+
   {% else %}
     <p>No forecast available.</p>
   {% endif %}
