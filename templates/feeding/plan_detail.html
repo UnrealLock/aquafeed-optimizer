@@ -68,7 +68,6 @@
     <div id="chart-phosphate"></div>
     <div id="chart-organic"></div>
 
-    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <script>
       const nitrateFig = JSON.parse('{{ charts.nitrate_json|escapejs }}');
       Plotly.newPlot('chart-nitrate', nitrateFig.data, nitrateFig.layout);
@@ -82,5 +81,19 @@
 
   {% else %}
     <p>No forecast available.</p>
+  {% endif %}
+
+  {% if forecast %}
+    <h2>30‑day forecast</h2>
+    <p>
+      Forecast assumes constant feeding, no water changes and no plants.
+    </p>
+
+    <div id="chart-forecast"></div>
+
+    <script>
+      const forecastFig = JSON.parse('{{ daily_forecast_chart|escapejs }}');
+      Plotly.newPlot('chart-forecast', forecastFig.data, forecastFig.layout);
+    </script>
   {% endif %}
 {% endblock %}
