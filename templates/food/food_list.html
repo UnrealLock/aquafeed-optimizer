@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Food{% endblock %}
+
+{% block content %}
+<h1>Fish food</h1>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Protein %</th>
+      <th>Fat %</th>
+      <th>Pollution index</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for food in foods %}
+    <tr>
+      <td>{{ food.name }}</td>
+      <td>{{ food.protein_percent }}</td>
+      <td>{{ food.fat_percent }}</td>
+      <td>{{ food.pollution_index }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

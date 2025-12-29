@@ -9,6 +9,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('feeding/', include('feeding.urls')),
+    path("fish/", include("fish.urls")),
+    path("food/", include("food.urls")),
+    path("aquariums/", include("aquariums.urls")),
 ]
 
 if settings.DEBUG:

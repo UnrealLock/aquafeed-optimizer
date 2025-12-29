@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Fish species{% endblock %}
+
+{% block content %}
+<h1>Fish species</h1>
+
+<div class="row">
+{% for f in fish %}
+  <div class="col-md-4 mb-3">
+    <div class="card h-100">
+      <div class="card-body">
+        <h5 class="card-title">{{ f.name }}</h5>
+        <p class="card-text">
+          Avg weight: {{ f.average_weight_grams }} g<br>
+          Feeding coef: {{ f.feeding_coefficient }}<br>
+          Waste factor: {{ f.waste_factor }}
+        </p>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+</div>
+{% endblock %}
