@@ -5,6 +5,7 @@ from .forms import AquariumCreateForm
 from .forms import AquariumFishForm
 from fish.models import AquariumFish
 from django.db import transaction
+from django.contrib import messages
 
 @login_required
 def aquarium_list(request):
@@ -60,3 +61,15 @@ def aquarium_detail(request, pk):
         "aquariums/detail.html",
         {"aquarium": aquarium, "fish_list": fish_list, "form": form},
     )
+
+@login_required
+def aquarium_delete(request, pk: int):
+    aquarium = get_object_or_404(Aquarium, pk=pk, user=request.user)
+
+    if request.method == "POST":
+        aquarium_name = aquarium.name
+        aquarium.delete()
+        messages.success(request, f'Aquarium "{aquarium_name}" deleted.')
+        return redirect("aquariums:list")
+
+    return render(request, "aquariums/confirm_delete.html", {"aquarium": aquarium})

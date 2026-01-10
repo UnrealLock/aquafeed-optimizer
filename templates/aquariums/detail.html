@@ -2,7 +2,20 @@
 {% block title %}{{ aquarium.name }}{% endblock %}
 
 {% block content %}
-<h1 class="mb-3">{{ aquarium.name }}</h1>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="mb-0">{{ aquarium.name }}</h1>
+
+  <div class="d-flex gap-2">
+    <a href="{% url 'aquariums:list' %}" class="btn btn-outline-secondary btn-sm">
+      Back
+    </a>
+
+    <a href="{% url 'aquariums:delete' aquarium.pk %}" class="btn btn-outline-danger btn-sm">
+      Delete
+    </a>
+  </div>
+</div>
 
 <div class="row">
   <div class="col-md-6">
@@ -50,4 +63,5 @@
 <a href="{% url 'feeding:plan_create' %}" class="btn btn-success">
   Calculate feeding
 </a>
+
 {% endblock %}

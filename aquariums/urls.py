@@ -7,4 +7,5 @@ urlpatterns = [
     path("", views.aquarium_list, name="list"),
     path("new/", views.aquarium_create, name="create"),
     path("<int:pk>/", views.aquarium_detail, name="detail"),
+    path("<int:pk>/delete/", views.aquarium_delete, name="delete"),
 ]

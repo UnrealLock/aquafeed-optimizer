@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Delete aquarium{% endblock %}
+
+{% block content %}
+<h1 class="mb-3">Delete aquarium</h1>
+
+<div class="alert alert-warning">
+  You are about to delete <strong>{{ aquarium.name }}</strong>.
+  All related fish entries and feeding plans will also be deleted.
+</div>
+
+<form method="post">
+  {% csrf_token %}
+  <button class="btn btn-danger">Yes, delete</button>
+  <a class="btn btn-secondary" href="{% url 'aquariums:detail' aquarium.pk %}">Cancel</a>
+</form>
+{% endblock %}
