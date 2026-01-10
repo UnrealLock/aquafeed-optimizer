@@ -3,10 +3,12 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from .views import home
+from aquaFeedOptimizer import views
 
 urlpatterns = [
     path("", home, name="home"),
     path('admin/', admin.site.urls),
+    path("accounts/signup/", views.signup, name="signup"),
     path('accounts/', include('django.contrib.auth.urls')),
     path('feeding/', include('feeding.urls')),
     path("fish/", include("fish.urls")),
