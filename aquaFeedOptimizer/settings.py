@@ -7,9 +7,9 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = os.getenv("SECRET_KEY", "unsafe-secret-key-for-build-only")
 
-DEBUG = True
+DEBUG = os.getenv("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = ['.railway.app']
 
@@ -109,3 +109,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "aquariums:list"
 LOGOUT_REDIRECT_URL = "login"
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.railway.app",
+]
