@@ -14,6 +14,7 @@ urlpatterns = [
     path("fish/", include("fish.urls")),
     path("food/", include("food.urls")),
     path("aquariums/", include("aquariums.urls")),
+    path("water_quality/", include("water_quality.urls")),
 ]
 
 if settings.DEBUG:

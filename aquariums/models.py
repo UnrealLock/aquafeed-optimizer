@@ -35,3 +35,29 @@ class Aquarium(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.volume_liters} L)"
+    
+class AquariumPlant(models.Model):
+    aquarium = models.ForeignKey(
+        Aquarium,
+        on_delete=models.CASCADE,
+        related_name="plants"
+    )
+
+    name = models.CharField(max_length=100)
+
+    nitrate_absorption = models.DecimalField(
+        max_digits=6,
+        decimal_places=3,
+        help_text="NO3 ppm absorbed per day"
+    )
+
+    phosphate_absorption = models.DecimalField(
+        max_digits=6,
+        decimal_places=3,
+        help_text="PO4 ppm absorbed per day"
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name

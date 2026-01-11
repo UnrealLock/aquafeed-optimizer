@@ -7,13 +7,8 @@
   <h1 class="mb-0">{{ aquarium.name }}</h1>
 
   <div class="d-flex gap-2">
-    <a href="{% url 'aquariums:list' %}" class="btn btn-outline-secondary btn-sm">
-      Back
-    </a>
-
-    <a href="{% url 'aquariums:delete' aquarium.pk %}" class="btn btn-outline-danger btn-sm">
-      Delete
-    </a>
+    <a href="{% url 'aquariums:list' %}" class="btn btn-outline-secondary btn-sm">Back</a>
+    <a href="{% url 'aquariums:delete' aquarium.pk %}" class="btn btn-outline-danger btn-sm">Delete</a>
   </div>
 </div>
 
@@ -29,6 +24,52 @@
         </ul>
       </div>
     </div>
+
+    <div class="card shadow-sm mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Water Changes</h5>
+
+        {% if water_changes %}
+          <ul class="list-group mb-3">
+            {% for wc in water_changes %}
+              <li class="list-group-item">
+                Every <strong>{{ wc.day_interval }}</strong> days – <strong>{{ wc.percent }}</strong>%
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="text-muted">No water changes added.</p>
+        {% endif %}
+
+        <h6 class="mt-3 mb-2">Set water change</h6>
+        <form method="post">
+          {% csrf_token %}
+          <input type="hidden" name="form_type" value="water_change">
+          {{ water_change_form.as_p }}
+          <button class="btn btn-primary btn-sm">Save Water Change</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="card shadow-sm mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Plants</h5>
+
+        {% if plants %}
+          <ul class="list-group">
+            {% for plant in plants %}
+              <li class="list-group-item">
+                <strong>{{ plant.name }}</strong><br>
+                NO₃: {{ plant.nitrate_absorption }}, PO₄: {{ plant.phosphate_absorption }}
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="text-muted mb-0">No plants added.</p>
+        {% endif %}
+      </div>
+    </div>
+
   </div>
 
   <div class="col-md-6">
@@ -52,6 +93,7 @@
         <h6 class="mt-3">Set fish count</h6>
         <form method="post">
           {% csrf_token %}
+          <input type="hidden" name="form_type" value="fish">
           {{ form.as_p }}
           <button class="btn btn-primary btn-sm">Save</button>
         </form>
@@ -60,8 +102,11 @@
   </div>
 </div>
 
-<a href="{% url 'feeding:plan_create' %}" class="btn btn-success">
-  Calculate feeding
-</a>
+<div class="d-flex gap-2 mb-3">
+  <a href="{% url 'aquariums:add_water_change' aquarium.pk %}" class="btn btn-outline-primary btn-sm">Add Water Change</a>
+  <a href="{% url 'aquariums:add_plant' aquarium.pk %}" class="btn btn-outline-success btn-sm">Add Plant</a>
+</div>
+
+<a href="{% url 'feeding:plan_create' %}" class="btn btn-success">Calculate feeding</a>
 
 {% endblock %}

@@ -2,6 +2,8 @@ from decimal import Decimal
 from django.db import transaction
 from fish.models import AquariumFish
 from water_quality.models import WaterQualityForecast
+from water_quality.models import WaterChange
+from aquariums.models import AquariumPlant
 
 FILTRATION_EFFICIENCY = {
     "external": Decimal("1.00"),
@@ -9,7 +11,6 @@ FILTRATION_EFFICIENCY = {
     "sponge": Decimal("0.70"),
     "none": Decimal("0.40"),
 }
-
 
 def build_daily_forecast(feeding_plan, days: int = 30) -> list[dict]:
     aquarium = feeding_plan.aquarium
@@ -22,30 +23,43 @@ def build_daily_forecast(feeding_plan, days: int = 30) -> list[dict]:
         aquarium=aquarium
     )
 
-    total_waste_factor = Decimal("0")
-    for e in fish_entries:
-        total_waste_factor += Decimal(e.count) * e.species.waste_factor
+    total_waste_factor = sum(
+        Decimal(e.count) * e.species.waste_factor for e in fish_entries
+    )
 
     eff = FILTRATION_EFFICIENCY.get(
-        aquarium.filtration_type, Decimal("0.70")
+        aquarium.filtration_type, Decimal("0.7")
     )
 
     pollution = food.pollution_index
 
-    no3 = Decimal("0")
-    po4 = Decimal("0")
-    organic = Decimal("0")
+    daily_no3_inc = (daily_food * pollution * Decimal("10.0")) / volume
+    daily_po4_inc = (daily_food * pollution * Decimal("2.0")) / volume
+    daily_organic_inc = (daily_food * (Decimal("1.0") + total_waste_factor)) / eff
 
+    plants = AquariumPlant.objects.filter(aquarium=aquarium)
+    plant_no3_abs = sum(p.nitrate_absorption for p in plants)
+    plant_po4_abs = sum(p.phosphate_absorption for p in plants)
+
+    water_changes = WaterChange.objects.filter(aquarium=aquarium)
+
+    no3 = po4 = organic = Decimal("0")
     rows = []
 
     for day in range(1, days + 1):
-        daily_no3 = (daily_food * pollution * Decimal("10.0")) / volume
-        daily_po4 = (daily_food * pollution * Decimal("2.0")) / volume
-        daily_organic = (daily_food * (Decimal("1.0") + total_waste_factor)) / eff
+        no3 += daily_no3_inc
+        po4 += daily_po4_inc
+        organic += daily_organic_inc
 
-        no3 += daily_no3
-        po4 += daily_po4
-        organic += daily_organic
+        no3 = max(Decimal("0"), no3 - plant_no3_abs)
+        po4 = max(Decimal("0"), po4 - plant_po4_abs)
+
+        for wc in water_changes:
+            if day % wc.day_interval == 0:
+                factor = (Decimal("100") - wc.percent) / Decimal("100")
+                no3 *= factor
+                po4 *= factor
+                organic *= factor
 
         rows.append({
             "day": day,
