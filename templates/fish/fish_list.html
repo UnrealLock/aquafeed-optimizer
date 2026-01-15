@@ -1,8 +1,8 @@
 {% extends "base.html" %}
-{% block title %}Fish species{% endblock %}
+{% block title %}Виды рыб{% endblock %}
 
 {% block content %}
-<h1>Fish species</h1>
+<h1>Виды рыб</h1>
 
 <div class="row">
 {% for f in fish %}
@@ -11,9 +11,9 @@
       <div class="card-body">
         <h5 class="card-title">{{ f.name }}</h5>
         <p class="card-text">
-          Avg weight: {{ f.average_weight_grams }} g<br>
-          Feeding coef: {{ f.feeding_coefficient }}<br>
-          Waste factor: {{ f.waste_factor }}
+          Средний вес: {{ f.average_weight_grams }} г<br>
+          Коэф. кормления: {{ f.feeding_coefficient }}<br>
+          Фактор отходов: {{ f.waste_factor }}
         </p>
       </div>
     </div>

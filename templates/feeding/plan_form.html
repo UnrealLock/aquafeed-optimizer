@@ -1,12 +1,12 @@
 {% extends "base.html" %}
-{% block title %}Create Feeding Plan{% endblock %}
+{% block title %}Создать план кормления{% endblock %}
 
 {% block content %}
-  <h1>Create Feeding Plan</h1>
+  <h1>Создать план кормления</h1>
 
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Calculate & Save</button>
+    <button type="submit">Рассчитать и сохранить</button>
   </form>
 {% endblock %}

@@ -34,8 +34,18 @@ class AquariumFishForm(forms.ModelForm):
 class AquariumPlantForm(forms.ModelForm):
     class Meta:
         model = AquariumPlant
-        fields = ['name', 'nitrate_absorption', 'phosphate_absorption']
-
-    name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={"class": "form-control"}))
-    nitrate_absorption = forms.DecimalField(max_digits=6, decimal_places=3, widget=forms.NumberInput(attrs={"class": "form-control"}))
-    phosphate_absorption = forms.DecimalField(max_digits=6, decimal_places=3, widget=forms.NumberInput(attrs={"class": "form-control"}))
+        fields = ["name", "nitrate_absorption", "phosphate_absorption"]
+        labels = {
+            "name": "Название растения",
+            "nitrate_absorption": "Поглощение NO₃ (ppm/день)",
+            "phosphate_absorption": "Поглощение PO₄ (ppm/день)",
+        }
+        help_texts = {
+            "nitrate_absorption": "Сколько нитратов растение поглощает в сутки",
+            "phosphate_absorption": "Сколько фосфатов растение поглощает в сутки",
+        }
+        widgets = {
+            "name": forms.TextInput(attrs={"class": "form-control"}),
+            "nitrate_absorption": forms.NumberInput(attrs={"class": "form-control", "step": "0.001"}),
+            "phosphate_absorption": forms.NumberInput(attrs={"class": "form-control", "step": "0.001"}),
+        }

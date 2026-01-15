@@ -1,17 +1,17 @@
 {% extends "base.html" %}
-{% block title %}Delete aquarium{% endblock %}
+{% block title %}Удалить аквариум{% endblock %}
 
 {% block content %}
-<h1 class="mb-3">Delete aquarium</h1>
+<h1 class="mb-3">Удалить аквариум</h1>
 
 <div class="alert alert-warning">
-  You are about to delete <strong>{{ aquarium.name }}</strong>.
-  All related fish entries and feeding plans will also be deleted.
+  Вы собираетесь удалить аквариум <strong>{{ aquarium.name }}</strong>.
+  Все связанные записи о рыбах и планы кормления также будут удалены.
 </div>
 
 <form method="post">
   {% csrf_token %}
-  <button class="btn btn-danger">Yes, delete</button>
-  <a class="btn btn-secondary" href="{% url 'aquariums:detail' aquarium.pk %}">Cancel</a>
+  <button class="btn btn-danger">Да, удалить</button>
+  <a class="btn btn-secondary" href="{% url 'aquariums:detail' aquarium.pk %}">Отмена</a>
 </form>
 {% endblock %}

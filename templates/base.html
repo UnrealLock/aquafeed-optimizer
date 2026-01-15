@@ -17,12 +17,12 @@
 
     <div class="collapse navbar-collapse">
       <ul class="navbar-nav me-auto">
-        <li class="nav-item"><a class="nav-link" href="/fish/">Fish</a></li>
-        <li class="nav-item"><a class="nav-link" href="/food/">Food</a></li>
+        <li class="nav-item"><a class="nav-link" href="/fish/">Виды рыб</a></li>
+        <li class="nav-item"><a class="nav-link" href="/food/">Корма</a></li>
 
         {% if user.is_authenticated %}
-          <li class="nav-item"><a class="nav-link" href="/aquariums/">My aquariums</a></li>
-          <li class="nav-item"><a class="nav-link" href="/feeding/plans/new/">New plan</a></li>
+          <li class="nav-item"><a class="nav-link" href="/aquariums/">Мои аквариумы</a></li>
+          <li class="nav-item"><a class="nav-link" href="/feeding/plans/new/">Новый план</a></li>
         {% endif %}
       </ul>
 
@@ -31,15 +31,15 @@
           <li class="nav-item">
             <form method="post" action="/accounts/logout/">
               {% csrf_token %}
-              <button class="btn btn-outline-light btn-sm">Logout</button>
+              <button class="btn btn-outline-light btn-sm">Выйти</button>
             </form>
           </li>
         {% else %}
           <li class="nav-item">
-            <a class="btn btn-outline-light btn-sm" href="/accounts/login/">Login</a>
+            <a class="btn btn-outline-light btn-sm" href="/accounts/login/">Войти</a>
           </li>
           <li class="nav-item ms-2">
-            <a class="btn btn-primary btn-sm" href="/accounts/signup/">Create account</a>
+            <a class="btn btn-primary btn-sm" href="/accounts/signup/">Создать аккаунт</a>
           </li>
         {% endif %}
       </ul>

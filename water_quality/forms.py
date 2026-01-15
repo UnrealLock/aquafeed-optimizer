@@ -5,6 +5,15 @@ class WaterChangeForm(forms.ModelForm):
     class Meta:
         model = WaterChange
         fields = ['day_interval', 'percent']
-
-    day_interval = forms.IntegerField(min_value=1, widget=forms.NumberInput(attrs={"class": "form-control"}))
-    percent = forms.DecimalField(max_digits=5, decimal_places=2, widget=forms.NumberInput(attrs={"class": "form-control"}))
+        labels = {
+            'day_interval': 'Интервал подмены (дней)',
+            'percent': 'Процент подмены (%)',
+        }
+        help_texts = {
+            'day_interval': 'Каждые N дней',
+            'percent': 'Процент объёма воды для замены',
+        }
+        widgets = {
+            'day_interval': forms.NumberInput(attrs={'class': 'form-control'}),
+            'percent': forms.NumberInput(attrs={'class': 'form-control'}),
+        }

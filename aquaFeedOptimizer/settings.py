@@ -11,7 +11,7 @@ SECRET_KEY = os.getenv("SECRET_KEY", "unsafe-secret-key-for-build-only")
 
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = ['.railway.app']
+ALLOWED_HOSTS = ['.railway.app', '127.0.0.1', 'localhost']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -57,11 +57,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'aquaFeedOptimizer.wsgi.application'
 
-DATABASES = {
-    'default': dj_database_url.parse(
-        os.environ.get('DATABASE_URL'),
-        conn_max_age=600,
+db_url = os.getenv("DATABASE_URL")
+
+if not db_url:
+    db_url = (
+        f"postgresql://{os.getenv('POSTGRES_USER')}:"
+        f"{os.getenv('POSTGRES_PASSWORD')}@"
+        f"{os.getenv('POSTGRES_HOST')}:"
+        f"{os.getenv('POSTGRES_PORT')}/"
+        f"{os.getenv('POSTGRES_DB')}"
     )
+
+DATABASES = {
+    "default": dj_database_url.parse(db_url, conn_max_age=600)
 }
 
 
@@ -92,9 +100,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 

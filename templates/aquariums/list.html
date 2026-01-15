@@ -1,10 +1,10 @@
 {% extends "base.html" %}
-{% block title %}My aquariums{% endblock %}
+{% block title %}Мои аквариумы{% endblock %}
 
 {% block content %}
-  <h1 class="mb-4">My aquariums</h1>
+  <h1 class="mb-4">Мои аквариумы</h1>
 
-  <a href="{% url 'aquariums:create' %}" class="btn btn-success mb-4">Create new aquarium</a>
+  <a href="{% url 'aquariums:create' %}" class="btn btn-success mb-4">Создать новый аквариум</a>
 
   <div class="list-group">
     {% for a in aquariums %}
@@ -12,14 +12,14 @@
         <div>
           <h5 class="fw-semibold">{{ a.name }}</h5>
           <div class="text-muted small">
-            {{ a.volume_liters }} L • {{ a.get_filtration_type_display }} filtration • Created: {{ a.created_at|date:"F j, Y, g:i a" }}
+            {{ a.volume_liters }} л • {{ a.get_filtration_type_display }} фильтрация • Создан: {{ a.created_at|date:"F j, Y, g:i a" }}
           </div>
         </div>
         
-        <a href="{% url 'aquariums:detail' a.pk %}" class="btn btn-primary btn-sm">View</a>
+        <a href="{% url 'aquariums:detail' a.pk %}" class="btn btn-primary btn-sm">Просмотр</a>
       </div>
     {% empty %}
-      <div class="alert alert-info">You have no aquariums yet.</div>
+      <div class="alert alert-info">У вас пока нет аквариумов.</div>
     {% endfor %}
   </div>
 {% endblock %}

@@ -1,8 +1,8 @@
 {% extends "base.html" %}
-{% block title %}Sign up{% endblock %}
+{% block title %}Регистрация{% endblock %}
 
 {% block content %}
-<h1 class="mb-4">Create account</h1>
+<h1 class="mb-4">Создать аккаунт</h1>
 
 <div class="card shadow-sm">
   <div class="card-body">
@@ -34,8 +34,8 @@
         </div>
       {% endfor %}
 
-      <button class="btn btn-primary">Sign up</button>
-      <a class="btn btn-outline-secondary" href="{% url 'login' %}">I already have an account</a>
+      <button class="btn btn-primary">Зарегистрироваться</button>
+      <a class="btn btn-outline-secondary" href="{% url 'login' %}">Уже есть аккаунт</a>
     </form>
   </div>
 </div>

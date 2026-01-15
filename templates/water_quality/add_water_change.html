@@ -1,14 +1,14 @@
 {% extends "base.html" %}
-{% block title %}Add Water Change{% endblock %}
+{% block title %}Выбрать замену воды{% endblock %}
 
 {% block content %}
-<h1>Add Water Change</h1>
+<h1>Выбрать замену воды</h1>
 
 <form method="POST">
   {% csrf_token %}
   {{ form.as_p }}
-  <button class="btn btn-primary">Save</button>
+  <button class="btn btn-primary">Сохранить</button>
 </form>
 
-<a href="{% url 'aquariums:detail' aquarium.pk %}" class="btn btn-secondary mt-3">Cancel</a>
+<a href="{% url 'aquariums:detail' aquarium.pk %}" class="btn btn-secondary mt-3">Отменить</a>
 {% endblock %}
