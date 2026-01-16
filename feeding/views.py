@@ -99,3 +99,28 @@ def feeding_plan_detail(request, pk: int):
         "org_state": org_state,
     },
 )
+
+@login_required
+def feeding_plan_list(request):
+    plans = (
+        FeedingPlan.objects
+        .select_related("aquarium", "food")
+        .filter(aquarium__user=request.user)
+        .order_by("-created_at")
+    )
+    return render(request, "feeding/plan_list.html", {"plans": plans})
+
+@login_required
+def feeding_plan_delete(request, pk: int):
+    plan = get_object_or_404(
+        FeedingPlan,
+        pk=pk,
+        aquarium__user=request.user,
+    )
+
+    if request.method == "POST":
+        plan.delete()
+        messages.success(request, "Feeding plan deleted.")
+        return redirect("feeding:plan_list")
+
+    return render(request, "feeding/plan_confirm_delete.html", {"plan": plan})

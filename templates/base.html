@@ -23,6 +23,7 @@
         {% if user.is_authenticated %}
           <li class="nav-item"><a class="nav-link" href="/aquariums/">Мои аквариумы</a></li>
           <li class="nav-item"><a class="nav-link" href="/feeding/plans/new/">Новый план</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'feeding:plan_list' %}">Мои планы</a></li>
         {% endif %}
       </ul>
 

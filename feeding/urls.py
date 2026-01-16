@@ -4,6 +4,8 @@ from . import views
 app_name = "feeding"
 
 urlpatterns = [
+    path("plans/", views.feeding_plan_list, name="plan_list"),
     path("plans/new/", views.feeding_plan_create, name="plan_create"),
     path("plans/<int:pk>/", views.feeding_plan_detail, name="plan_detail"),
+    path("plans/<int:pk>/delete/", views.feeding_plan_delete, name="plan_delete"),
 ]

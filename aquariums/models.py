@@ -39,36 +39,43 @@ class Aquarium(models.Model):
     def __str__(self):
         return f"{self.name} ({self.volume_liters} л)"
 
-
-class AquariumPlant(models.Model):
-    aquarium = models.ForeignKey(
-        Aquarium,
-        on_delete=models.CASCADE,
-        related_name="plants",
-        verbose_name="Аквариум",
-    )
-
-    name = models.CharField("Название растения", max_length=100)
+class Plant(models.Model):
+    name = models.CharField("Название растения", max_length=150, unique=True)
 
     nitrate_absorption = models.DecimalField(
         "Поглощение NO₃ (ppm/день)",
         max_digits=6,
         decimal_places=3,
-        help_text="Сколько нитратов (NO₃) растение поглощает в сутки (ppm/день)",
     )
 
     phosphate_absorption = models.DecimalField(
         "Поглощение PO₄ (ppm/день)",
         max_digits=6,
         decimal_places=3,
-        help_text="Сколько фосфатов (PO₄) растение поглощает в сутки (ppm/день)",
     )
 
-    created_at = models.DateTimeField("Дата добавления", auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        verbose_name = "Растение"
-        verbose_name_plural = "Растения"
+        verbose_name = "Аквариумное растение"
+        verbose_name_plural = "Аквариумные растения"
 
     def __str__(self):
         return self.name
+
+class AquariumPlant(models.Model):
+    aquarium = models.ForeignKey(
+        Aquarium,
+        on_delete=models.CASCADE,
+        related_name="plants",
+    )
+
+    plant = models.ForeignKey(
+        Plant,
+        on_delete=models.PROTECT,
+        related_name="aquariums",
+    )
+
+    quantity = models.PositiveIntegerField("Количество", default=1)
+
+    created_at = models.DateTimeField(auto_now_add=True)

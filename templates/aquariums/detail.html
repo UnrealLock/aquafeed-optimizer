@@ -58,9 +58,17 @@
         {% if plants %}
           <ul class="list-group">
             {% for plant in plants %}
-              <li class="list-group-item">
-                <strong>{{ plant.name }}</strong><br>
-                NO₃: {{ plant.nitrate_absorption }}, PO₄: {{ plant.phosphate_absorption }}
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span>
+                  {{ plant.plant.name }} × {{ plant.quantity }}
+                </span>
+
+                <a
+                  href="{% url 'aquariums:delete_plant' plant.pk %}"
+                  class="btn btn-sm btn-outline-danger"
+                >
+                  Удалить
+                </a>
               </li>
             {% endfor %}
           </ul>

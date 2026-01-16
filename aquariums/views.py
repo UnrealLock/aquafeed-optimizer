@@ -8,6 +8,7 @@ from water_quality.forms import WaterChangeForm
 from water_quality.models import WaterChange
 
 from .forms import AquariumCreateForm, AquariumFishForm, AquariumPlantForm
+from .forms import AquariumPlantForm
 from .models import Aquarium, AquariumPlant
 
 
@@ -121,16 +122,40 @@ def aquarium_delete(request, pk: int):
 
 @login_required
 def add_plant(request, aquarium_id):
-    aquarium = get_object_or_404(Aquarium, pk=aquarium_id, user=request.user)
+    aquarium = get_object_or_404(
+        Aquarium,
+        pk=aquarium_id,
+        user=request.user
+    )
 
     if request.method == "POST":
         form = AquariumPlantForm(request.POST)
         if form.is_valid():
-            plant = form.save(commit=False)
-            plant.aquarium = aquarium
-            plant.save()
+            aquarium_plant = form.save(commit=False)
+            aquarium_plant.aquarium = aquarium
+            aquarium_plant.save()
             return redirect("aquariums:detail", pk=aquarium.pk)
     else:
         form = AquariumPlantForm()
 
-    return render(request, "aquariums/add_plant.html", {"form": form, "aquarium": aquarium})
+    return render(
+        request,
+        "aquariums/add_plant.html",
+        {
+            "form": form,
+            "aquarium": aquarium,
+        },
+    )
+
+@login_required
+def delete_plant(request, pk):
+    aquarium_plant = get_object_or_404(
+        AquariumPlant,
+        pk=pk,
+        aquarium__user=request.user,
+    )
+
+    aquarium_id = aquarium_plant.aquarium_id
+    aquarium_plant.delete()
+
+    return redirect("aquariums:detail", pk=aquarium_id)

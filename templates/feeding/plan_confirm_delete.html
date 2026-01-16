@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Удалить план кормления{% endblock %}
+
+{% block content %}
+<h1 class="mb-3">Удалить план кормления</h1>
+
+<div class="alert alert-warning">
+  Вы собираетесь удалить план для аквариума <strong>{{ plan.aquarium.name }}</strong>
+  (корм: <strong>{{ plan.food.name }}</strong>, создан: {{ plan.created_at }}).
+</div>
+
+<form method="post">
+  {% csrf_token %}
+  <button class="btn btn-danger">Да, удалить</button>
+  <a class="btn btn-secondary" href="{% url 'feeding:plan_detail' plan.pk %}">Отмена</a>
+</form>
+{% endblock %}

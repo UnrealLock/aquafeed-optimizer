@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Мои планы кормления{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Мои планы кормления</h1>
+
+<div class="d-flex gap-2 mb-3">
+  <a href="{% url 'feeding:plan_create' %}" class="btn btn-success">Новый план</a>
+</div>
+
+{% if plans %}
+  <div class="list-group">
+    {% for p in plans %}
+      <div class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+          <div class="fw-semibold">
+            {{ p.aquarium.name }} — {{ p.food.name }}
+          </div>
+          <div class="text-muted small">
+            Создан: {{ p.created_at }} • {{ p.daily_amount_grams }} г/день • {{ p.feedings_per_day }} раз/день
+          </div>
+        </div>
+
+        <div class="d-flex gap-2">
+          <a class="btn btn-primary btn-sm" href="{% url 'feeding:plan_detail' p.pk %}">Открыть</a>
+          <a class="btn btn-outline-danger btn-sm" href="{% url 'feeding:plan_delete' p.pk %}">Удалить</a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="alert alert-info">Планы кормления ещё не созданы.</div>
+{% endif %}
+{% endblock %}

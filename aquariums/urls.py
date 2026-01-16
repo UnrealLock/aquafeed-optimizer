@@ -15,5 +15,14 @@ urlpatterns = [
         water_views.add_water_change,
         name="add_water_change"
     ),
-    path("<int:aquarium_id>/add_plant/", views.add_plant, name="add_plant"),
+    path(
+    "<int:aquarium_id>/add_plant/",
+    views.add_plant,
+    name="add_plant",
+    ),
+    path(
+    "plant/<int:pk>/delete/",
+    views.delete_plant,
+    name="delete_plant",
+    ),
 ]
