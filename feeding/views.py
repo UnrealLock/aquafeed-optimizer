@@ -37,6 +37,13 @@ def feeding_plan_create(request):
     messages.success(request, "Feeding plan created.")
     return redirect("feeding:plan_detail", pk=plan.pk)
 
+def classify(value, good_max, warn_max):
+    if value <= good_max:
+        return ("good", "Хорошо")
+    if value <= warn_max:
+        return ("warn", "Приемлемо")
+    return ("bad", "Критично")
+
 @login_required
 def feeding_plan_detail(request, pk: int):
     plan = get_object_or_404(
@@ -63,6 +70,12 @@ def feeding_plan_detail(request, pk: int):
         organic_display = forecast.organic_load_index.quantize(quant, rounding=ROUND_HALF_UP)
         charts = make_forecast_charts(forecast)
         rows = build_daily_forecast(plan, days=30)
+        max_no3 = max(r["no3"] for r in rows) if rows else 0
+        max_po4 = max(r["po4"] for r in rows) if rows else 0
+        max_org = max(r["organic"] for r in rows) if rows else 0
+        no3_state = classify(max_no3, 20, 40)
+        po4_state = classify(max_po4, 0.2, 0.5)
+        org_state = classify(max_org, 1, 2)
         daily_forecast_chart = make_daily_forecast_charts(rows)
 
     return render(
@@ -78,5 +91,11 @@ def feeding_plan_detail(request, pk: int):
         "organic_display": organic_display,
         "charts": charts,
         "daily_forecast_chart": daily_forecast_chart,
+        "max_no3": max_no3,
+        "max_po4": max_po4,
+        "max_org": max_org,
+        "no3_state": no3_state,
+        "po4_state": po4_state,
+        "org_state": org_state,
     },
 )

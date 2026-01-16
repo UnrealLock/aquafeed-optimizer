@@ -83,6 +83,13 @@
   </div>
 </div>
 
+  <div class="mt-3 small text-muted">
+    <strong>Обозначения:</strong>
+    <span class="ms-2">🟢 хорошо</span>
+    <span class="ms-2">🟡 приемлемо</span>
+    <span class="ms-2">🔴 критично</span>
+  </div>
+
 {% if forecast %}
   <div class="card shadow-sm mb-4">
     <div class="card-body">
@@ -99,6 +106,35 @@
           <div id="chart-organic"></div>
         </div>
       </div>
+    </div>
+  </div>
+
+
+  <div class="mt-3">
+    <div class="small text-muted mb-2">
+      Оценка прогноза по максимальным значениям за 30 дней:
+    </div>
+
+    {% with no3_code=no3_state.0 no3_label=no3_state.1 %}
+      <span class="badge {% if no3_code == 'good' %}bg-success{% elif no3_code == 'warn' %}bg-warning text-dark{% else %}bg-danger{% endif %}">
+        NO₃ max: {{ max_no3|floatformat:3 }} ppm — {{ no3_label }}
+      </span>
+    {% endwith %}
+
+    {% with po4_code=po4_state.0 po4_label=po4_state.1 %}
+      <span class="badge ms-2 {% if po4_code == 'good' %}bg-success{% elif po4_code == 'warn' %}bg-warning text-dark{% else %}bg-danger{% endif %}">
+        PO₄ max: {{ max_po4|floatformat:3 }} ppm — {{ po4_label }}
+      </span>
+    {% endwith %}
+
+    {% with org_code=org_state.0 org_label=org_state.1 %}
+      <span class="badge ms-2 {% if org_code == 'good' %}bg-success{% elif org_code == 'warn' %}bg-warning text-dark{% else %}bg-danger{% endif %}">
+        Органика max: {{ max_org|floatformat:3 }} — {{ org_label }}
+      </span>
+    {% endwith %}
+
+    <div class="mt-2 small text-muted">
+      Цвета: зелёный — хорошо, жёлтый — приемлемо, красный — критично.
     </div>
   </div>
 
