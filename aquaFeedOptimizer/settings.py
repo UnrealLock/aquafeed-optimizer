@@ -59,31 +59,24 @@ WSGI_APPLICATION = 'aquaFeedOptimizer.wsgi.application'
 
 db_url = os.getenv("DATABASE_URL")
 
-if not db_url:
-    db_url = (
-        f"postgresql://{os.getenv('POSTGRES_USER')}:"
-        f"{os.getenv('POSTGRES_PASSWORD')}@"
-        f"{os.getenv('POSTGRES_HOST')}:"
-        f"{os.getenv('POSTGRES_PORT')}/"
-        f"{os.getenv('POSTGRES_DB')}"
-    )
+postgres_user = os.getenv("POSTGRES_USER")
+postgres_password = os.getenv("POSTGRES_PASSWORD")
+postgres_host = os.getenv("POSTGRES_HOST")
+postgres_port = os.getenv("POSTGRES_PORT")
+postgres_db = os.getenv("POSTGRES_DB")
 
-DATABASES = {
-    "default": dj_database_url.parse(db_url, conn_max_age=600)
-}
-
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': os.getenv('POSTGRES_DB'),
-#         'USER': os.getenv('POSTGRES_USER'),
-#         'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
-#         'HOST': os.getenv('POSTGRES_HOST', 'db'),
-#         'PORT': os.getenv('POSTGRES_PORT', '5432'),
-#         'ATOMIC_REQUESTS': True,
-#     }
-# }
+if db_url:
+    DATABASES = {"default": dj_database_url.parse(db_url, conn_max_age=600)}
+elif all([postgres_user, postgres_password, postgres_host, postgres_port, postgres_db]):
+    db_url = f"postgresql://{postgres_user}:{postgres_password}@{postgres_host}:{postgres_port}/{postgres_db}"
+    DATABASES = {"default": dj_database_url.parse(db_url, conn_max_age=600)}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
