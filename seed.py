@@ -1,5 +1,6 @@
-from decimal import Decimal
+# -*- coding: utf-8 -*-
 
+from decimal import Decimal
 from fish.models import FishSpecies
 from food.models import Food
 from aquariums.models import Plant
